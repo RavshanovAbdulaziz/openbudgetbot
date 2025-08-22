@@ -40,11 +40,6 @@ def initialize_bot():
         
         # Command handlers
         bot_application.add_handler(CommandHandler("start", MessageHandlers.start_command))
-        bot_application.add_handler(CommandHandler("help", MessageHandlers.help_command))
-        bot_application.add_handler(CommandHandler("info", MessageHandlers.info_command))
-        bot_application.add_handler(CommandHandler("echo", MessageHandlers.echo_command))
-        bot_application.add_handler(CommandHandler("weather", MessageHandlers.weather_command))
-        bot_application.add_handler(CommandHandler("translate", MessageHandlers.translate_command))
         bot_application.add_handler(CommandHandler("ovoz_berish", MessageHandlers.ovoz_berish_command))
         
         # Message handler for all text messages

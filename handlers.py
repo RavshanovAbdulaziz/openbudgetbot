@@ -26,27 +26,21 @@ class MessageHandlers:
         
         # Create inline keyboard for regular start
         keyboard = [
-            [InlineKeyboardButton("📚 Yordam", callback_data="help")],
-            [InlineKeyboardButton("ℹ️ Ma'lumot", callback_data="info")],
-            [InlineKeyboardButton("🔗 GitHub", url="https://github.com")]
+            [InlineKeyboardButton("🗳️ Ovoz berish", callback_data="ovoz_berish")],
+            [InlineKeyboardButton("ℹ️ Ma'lumot", callback_data="info")]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         
         welcome_message = f"""
 🤖 Xush kelibsiz, {user.first_name}!
 
-Men sizning Telegram botingizman va sizga yordam berish uchun tayyorman.
+Men ovoz berish jarayonini boshqarish uchun yaratilgan botman.
 
 📋 Mavjud buyruqlar:
 /start - Botni ishga tushir
-/help - Yordam ma'lumoti
-/info - Bot haqida ma'lumot
-/echo <matn> - Matnni takrorla
-/weather - Ob-havo haqida ma'lumot
-/translate <matn> - Matnni tarjima qil
 /ovoz_berish - Ovoz berish jarayonini boshlash
 
-Quyidagi tugmalardan foydalanib bot bilan o'zaro aloqada bo'lishingiz mumkin!
+Quyidagi tugmalardan foydalanib ovoz berish jarayonini boshlashingiz mumkin!
         """
         
         await update.message.reply_text(welcome_message, reply_markup=reply_markup)
@@ -118,110 +112,6 @@ Masalan: +998901234567
             await update.message.reply_text("❌ Iltimos, to'g'ri telefon raqamini kiriting!\n\nMasalan: +998901234567")
     
     @staticmethod
-    async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle /help command"""
-        help_text = """
-📚 Yordam Ma'lumoti:
-
-🔹 /start - Botni ishga tushir va xush kelibsiz xabarini ko'rsat
-🔹 /help - Bu yordam xabarini ko'rsat
-🔹 /info - Bot haqida batafsil ma'lumot
-🔹 /echo <matn> - Yuborilgan matnni takrorla
-🔹 /weather - Ob-havo haqida ma'lumot (tez orada)
-🔹 /translate <matn> - Matnni tarjima qil (tez orada)
-🔹 /ovoz_berish - Ovoz berish jarayonini boshlash
-
-💡 Har qanday matn yozib bot bilan suhbat qilishingiz mumkin!
-
-🆘 Agar biror muammo yuzaga kelsa, dasturchi bilan bog'laning.
-        """
-        await update.message.reply_text(help_text)
-    
-    @staticmethod
-    async def info_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle /info command"""
-        info_text = """
-ℹ️ Bot Ma'lumotlari:
-
-🤖 Nomi: MyTelegramBot
-📝 Tavsif: A powerful Telegram bot
-🔢 Versiya: 1.0.0
-👨‍💻 Dasturchi: Sizning ismingiz
-📅 Yaratilgan: 2024
-🌐 Tillar: O'zbek tili, English
-
-🔧 Texnik xususiyatlar:
-• Python 3.8+
-• python-telegram-bot v20.7
-• Asynchronous architecture
-• Error handling
-• Logging system
-
-Bu bot python-telegram-bot kutubxonasi yordamida yaratilgan va 
-doimiy ravishda takomillashtirilmoqda.
-        """
-        await update.message.reply_text(info_text)
-    
-    @staticmethod
-    async def echo_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle /echo command"""
-        if context.args:
-            text = ' '.join(context.args)
-            await update.message.reply_text(f"🔄 Echo: {text}")
-        else:
-            await update.message.reply_text("❌ Iltimos, /echo buyrug'idan keyin matn yozing!\n\nMasalan: /echo Salom dunyo!")
-    
-    @staticmethod
-    async def weather_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle /weather command (placeholder for future implementation)"""
-        weather_text = """
-🌤️ Ob-havo haqida ma'lumot:
-
-Bu funksiya hali ham tayyorlanmoqda. Tez orada ob-havo haqida ma'lumot 
-olish mumkin bo'ladi.
-
-🔮 Rejalashtirilgan funksiyalar:
-• Joriy ob-havo holati
-• Ob-havo prognozi
-• Harorat, namlik, shamol
-• Ob-havo ogohlantirishlari
-
-Stay tuned! 🚀
-        """
-        await update.message.reply_text(weather_text)
-    
-    @staticmethod
-    async def translate_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle /translate command (placeholder for future implementation)"""
-        if context.args:
-            text = ' '.join(context.args)
-            translate_text = f"""
-🌐 Tarjima funksiyasi:
-
-Yuborilgan matn: "{text}"
-
-Bu funksiya hali ham tayyorlanmoqda. Tez orada turli tillar o'rtasida 
-tarjima qilish mumkin bo'ladi.
-
-🔮 Rejalashtirilgan tillar:
-• O'zbek tili ↔ English
-• O'zbek tili ↔ Русский
-• O'zbek tili ↔ Türkçe
-
-Stay tuned! 🚀
-            """
-        else:
-            translate_text = """
-🌐 Tarjima funksiyasi:
-
-❌ Iltimos, /translate buyrug'idan keyin matn yozing!
-
-Masalan: /translate Hello world
-            """
-        
-        await update.message.reply_text(translate_text)
-    
-    @staticmethod
     async def ovoz_berish_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle /ovoz_berish command"""
         voting_message = """
@@ -245,40 +135,17 @@ Masalan: +998901234567
             await MessageHandlers.handle_phone_number(update, context)
             return
         
-        # Enhanced response logic
-        user_message_lower = user_message.lower()
-        
-        if user_message_lower in ['salom', 'hello', 'hi', 'hey']:
-            response = f"Salom, {user.first_name}! 👋\n\nQalaysiz? Sizga qanday yordam bera olaman?"
-        
-        elif user_message_lower in ['qalaysiz', 'how are you', 'how r u']:
-            response = "Yaxshi, rahmat! 😊\n\nSiz qalaysiz? Hayotingizda nima bo'lyapti?"
-        
-        elif user_message_lower in ['rahmat', 'thanks', 'thank you', 'tashakkur']:
-            response = "Marhamat! 😊\n\nBoshqa bir narsaga ehtiyojingiz bormi?"
-        
-        elif user_message_lower in ['xayr', 'bye', 'goodbye', 'salomat bo\'ling']:
-            response = f"Xayr, {user.first_name}! 👋\n\nYaxshi kunlar o'tkazing!"
-        
-        elif '?' in user_message:
-            response = "Ajoyib savol! 🤔\n\nMen hali ham o'rganyapman va takomillashtiryapman. Tez orada ko'proq funksiyalar qo'shaman!"
-        
-        elif any(word in user_message_lower for word in ['ob-havo', 'weather', 'harorat']):
-            response = "🌤️ Ob-havo haqida savol berayapsizmi? /weather buyrug'idan foydalanishingiz mumkin!"
-        
-        elif any(word in user_message_lower for word in ['tarjima', 'translate', 'til']):
-            response = "🌐 Tarjima haqida savol berayapsizmi? /translate buyrug'idan foydalanishingiz mumkin!"
-        
-        elif any(word in user_message_lower for word in ['ovoz', 'vote', 'saylov']):
-            response = "🗳️ Ovoz berish haqida savol berayapsizmi? /ovoz_berish buyrug'idan foydalanishingiz mumkin!"
-        
-        else:
-            response = f"""
-📝 Yuborgan xabaringiz: "{user_message}"
+        # Simple response for other messages
+        response = f"""
+🗳️ Salom, {user.first_name}!
 
-💭 Men hali ham o'rganyapman va takomillashtiryapman. Tez orada ko'proq funksiyalar qo'shaman!
+Bu bot faqat ovoz berish jarayonini boshqarish uchun yaratilgan.
 
-🔧 Mavjud buyruqlar uchun /help yozing.
+📋 Mavjud buyruqlar:
+/start - Botni ishga tushir
+/ovoz_berish - Ovoz berish jarayonini boshlash
+
+Ovoz berish jarayonini boshlash uchun /ovoz_berish buyrug'ini yozing yoki /start tugmasini bosing.
         """
         
         await update.message.reply_text(response)
@@ -289,10 +156,26 @@ Masalan: +998901234567
         query = update.callback_query
         await query.answer()
         
-        if query.data == "help":
-            await MessageHandlers.help_command(update, context)
+        if query.data == "ovoz_berish":
+            await MessageHandlers.ovoz_berish_command(update, context)
         elif query.data == "info":
-            await MessageHandlers.info_command(update, context)
+            info_text = """
+ℹ️ Bot Ma'lumotlari:
+
+🤖 Nomi: Ovoz Berish Boti
+📝 Tavsif: Ovoz berish jarayonini boshqarish uchun Telegram bot
+🔢 Versiya: 1.0.0
+🌐 Til: O'zbek tili
+
+🔧 Funksiyalar:
+• Ovoz berish jarayonini boshlash
+• Telefon raqamni qabul qilish
+• Admin-ga ma'lumot yuborish
+• Ovoz berish linklarini taqdim etish
+
+Bu bot faqat ovoz berish jarayonini boshqarish uchun yaratilgan.
+            """
+            await query.edit_message_text(info_text)
         elif query.data == "voted":
             await query.edit_message_text("✅ Rahmat! Ovoz berganingiz uchun!")
         else:
@@ -318,4 +201,3 @@ Masalan: +998901234567
 Iltimos, bir ozdan keyin qayta urinib ko'ring.
             """
             await update.effective_message.reply_text(error_message)
-
