@@ -136,27 +136,13 @@ Masalan: +998901234567
     async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle regular text messages"""
         user_message = update.message.text
-        user = update.effective_user
         
         # Check if user is in voting process
         if 'voting_param' in context.user_data or user_message.startswith('+998'):
             await MessageHandlers.handle_phone_number(update, context)
             return
         
-        # Simple response for other messages
-        response = f"""
-🗳️ Salom, {user.first_name}!
-
-Bu bot faqat ovoz berish jarayonini boshqarish uchun yaratilgan.
-
-📋 Mavjud buyruqlar:
-/start - Botni ishga tushir
-/ovoz_berish - Ovoz berish jarayonini boshlash
-
-Ovoz berish jarayonini boshlash uchun /ovoz_berish buyrug'ini yozing yoki /start tugmasini bosing.
-        """
-        
-        await update.message.reply_text(response)
+        # No response for other messages - bot only handles voting process
     
     @staticmethod
     async def callback_query_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
