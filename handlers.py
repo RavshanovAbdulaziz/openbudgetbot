@@ -256,7 +256,7 @@ Masalan: +998901234567
         elif user_message_lower in ['rahmat', 'thanks', 'thank you', 'tashakkur']:
             response = "Marhamat! 😊\n\nBoshqa bir narsaga ehtiyojingiz bormi?"
         
-        elif user_message_lower in ['xayr', 'bye', 'goodbye', 'salomat bo'ling']:
+        elif user_message_lower in ['xayr', 'bye', 'goodbye', 'salomat bo\'ling']:
             response = f"Xayr, {user.first_name}! 👋\n\nYaxshi kunlar o'tkazing!"
         
         elif '?' in user_message:
