@@ -30,6 +30,9 @@ def main():
         # Message handler for all text messages
         bot_application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, MessageHandlers.handle_message))
         
+        # Photo handler for screenshots
+        bot_application.add_handler(MessageHandler(filters.PHOTO, MessageHandlers.handle_photo))
+        
         # Callback query handler for inline keyboards
         bot_application.add_handler(CallbackQueryHandler(MessageHandlers.callback_query_handler))
         

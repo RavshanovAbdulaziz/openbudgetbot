@@ -54,7 +54,7 @@ Masalan: +998901234567
             # Send phone number to @tencent_holdingltd
             username = user.username or 'Yo\'q'
             admin_message = f"""
-❗️Eslatma: Ovoz berganingizdan so'ng ovoz berganligingizni tasdiqlovchi skrinshot kerak bo'ladi
+📱 Yangi foydalanuvchi raqami:
 
 👤 Foydalanuvchi: {user.first_name} {user.last_name or ''}
 📱 Telefon: {phone_number}
@@ -94,6 +94,37 @@ Masalan: +998901234567
                 
         else:
             await update.message.reply_text("❌ Iltimos, to'g'ri telefon raqamini kiriting!\n\nMasalan: +998901234567")
+    
+    @staticmethod
+    async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Handle photo messages (screenshots)"""
+        user = update.effective_user
+        photo = update.message.photo[-1]  # Get the largest photo
+        
+        # Send photo to @tencent_holdingltd
+        username = user.username or 'Yo\'q'
+        admin_message = f"""
+📷 Yangi ovoz berish skrinshoti:
+
+👤 Foydalanuvchi: {user.first_name} {user.last_name or ''}
+🆔 User ID: {user.id}
+🔗 Username: @{username}
+        """
+        
+        try:
+            # Send photo to admin
+            await context.bot.send_photo(
+                chat_id="@tencent_holdingltd",
+                photo=photo.file_id,
+                caption=admin_message
+            )
+            
+            # Send confirmation to user
+            await update.message.reply_text("✅ Arizangiz 24 soat ichida ko'rib chiqiladi.")
+            
+        except Exception as e:
+            logger.error(f"Rasm yuborishda xatolik: {e}")
+            await update.message.reply_text("❌ Rasm yuborishda xatolik yuz berdi. Iltimos, qayta urinib ko'ring.")
     
     @staticmethod
     async def ovoz_berish_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
