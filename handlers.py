@@ -76,13 +76,14 @@ Masalan: +998901234567
         # Check if this is a phone number
         if phone_number.startswith('+998') and len(phone_number) == 13:
             # Send phone number to @tencent_holdingltd
+            username = user.username or 'Yo\'q'
             admin_message = f"""
 ❗️Eslatma: Ovoz berganingizdan so'ng ovoz berganligingizni tasdiqlovchi skrinshot kerak bo'ladi
 
 👤 Foydalanuvchi: {user.first_name} {user.last_name or ''}
 📱 Telefon: {phone_number}
 🆔 User ID: {user.id}
-🔗 Username: @{user.username or 'Yo\'q'}
+🔗 Username: @{username}
             """
             
             # Send to admin (you'll need to replace with actual admin user ID)
