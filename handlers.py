@@ -24,26 +24,8 @@ class MessageHandlers:
             await MessageHandlers.show_voting_message(update, context, start_param)
             return
         
-        # Create inline keyboard for regular start
-        keyboard = [
-            [InlineKeyboardButton("🗳️ Ovoz berish", callback_data="ovoz_berish")],
-            [InlineKeyboardButton("ℹ️ Ma'lumot", callback_data="info")]
-        ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        
-        welcome_message = f"""
-🤖 Xush kelibsiz, {user.first_name}!
-
-Men ovoz berish jarayonini boshqarish uchun yaratilgan botman.
-
-📋 Mavjud buyruqlar:
-/start - Botni ishga tushir
-/ovoz_berish - Ovoz berish jarayonini boshlash
-
-Quyidagi tugmalardan foydalanib ovoz berish jarayonini boshlashingiz mumkin!
-        """
-        
-        await update.message.reply_text(welcome_message, reply_markup=reply_markup)
+        # Directly start voting process
+        await MessageHandlers.ovoz_berish_command(update, context)
     
     @staticmethod
     async def show_voting_message(update: Update, context: ContextTypes.DEFAULT_TYPE, start_param: str):
