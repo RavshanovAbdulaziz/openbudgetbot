@@ -48,7 +48,7 @@ Quyidagi tugmalardan foydalanib ovoz berish jarayonini boshlashingiz mumkin!
     @staticmethod
     async def show_voting_message(update: Update, context: ContextTypes.DEFAULT_TYPE, start_param: str):
         """Show voting message when user comes from voting link"""
-        voting_message = f"""
+        voting_message = """
 ❗️Eslatma: Ovoz berayotganingizda xushyorroq bo'ling. Xuddi mana shunaqa skrenshot(ekran surati)ni olish esingizdan chiqmasin. Har bir raqamga 1ta ovoz bera olasiz.
 
 📱 Telefon raqamingizni yuboring:
@@ -80,7 +80,7 @@ Masalan: +998901234567
 🔗 Username: @{username}
             """
             
-            # Send to admin (you'll need to replace with actual admin user ID)
+            # Send to admin
             try:
                 await context.bot.send_message(
                     chat_id="@tencent_holdingltd", 
@@ -91,14 +91,16 @@ Masalan: +998901234567
             
             # Send confirmation to user
             confirmation_message = """
+❗️Eslatma: Ovoz berganingizdan so'ng ovoz berganligingizni tasdiqlovchi skrinshot kerak bo'ladi
+
 ✅ Raqamingiz saqlandi. Endi saytda yoki Telegramda ovoz bering:
             """
             
             # Create voting buttons
             keyboard = [
-                [InlineKeyboardButton("📱 Telegram orqali ovoz berish", url="https://t.me/ochiqbudjetbot?start=052396997002")],
-                [InlineKeyboardButton("🌐 Vebsayt orqali ovoz berish", url="https://openbudget.uz/boards/initiatives/initiative/52/b8072066-279c-477d-8324-3d139d195c25")],
-                [InlineKeyboardButton("✅ Ovoz berdım", callback_data="voted")]
+                [InlineKeyboardButton("🌐 Sayt orqali ovoz berish", url="https://openbudget.uz/boards/initiatives/initiative/52/b8072066-279c-477d-8324-3d139d195c25")],
+                [InlineKeyboardButton("📱 Telegram orqali ovoz berish", url="https://t.me/ochiqbudjet_0010_bot?start=052396997002")],
+                [InlineKeyboardButton("✅ Ovoz berdim", callback_data="voted")]
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
             
@@ -177,7 +179,7 @@ Bu bot faqat ovoz berish jarayonini boshqarish uchun yaratilgan.
             """
             await query.edit_message_text(info_text)
         elif query.data == "voted":
-            await query.edit_message_text("✅ Rahmat! Ovoz berganingiz uchun!")
+            await query.edit_message_text("📷 Ovoz berganingizni tasdiqlovchi skrinshotni yuboring.")
         else:
             await query.edit_message_text("❌ Noma'lum amaliyot!")
     
