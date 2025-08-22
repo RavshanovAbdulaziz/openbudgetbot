@@ -1,0 +1,41 @@
+# Telegram Bot Token - @BotFather dan oling
+# Bu bot uchun asosiy kalit
+TELEGRAM_BOT_TOKEN=7550589877:AAFtQAEcouoBXL1L2ZgX8sHttGA2Ut2t3bA
+
+# Railway Public URL - Railway deploy qilinganda avtomatik o'rnatiladi
+# Bot webhook uchun kerak
+RAILWAY_PUBLIC_URL=https://your-project.railway.app
+
+# API Prefix - API endpoint-lar uchun old qism
+# Masalan: /api/v1 yoki bo'sh qoldirish uchun
+API_PREFIX=
+
+# Environment - Bot ishlayotgan muhit
+# Mumkin qiymatlar: development, staging, production
+ENVIRONMENT=production
+
+# Log darajasi - Bot xabarlarini qanday ko'rsatish
+# Mumkin qiymatlar: DEBUG, INFO, WARNING, ERROR
+LOG_LEVEL=INFO
+
+# Port - Railway tomonidan avtomatik o'rnatiladi
+# O'zgartirmaslik kerak
+PORT=8000
+
+# Database URL - Kelajakda ma'lumotlarni saqlash uchun
+# Hozircha kerak emas
+DATABASE_URL=sqlite:///bot_database.db
+
+# Admin Chat ID - Ovoz berish ma'lumotlarini qabul qiluvchi
+# @tencent_holdingltd yoki boshqa admin ID
+ADMIN_CHAT_ID=@tencent_holdingltd
+
+# Bot nomi - Bot haqida ma'lumot
+BOT_NAME=Ovoz Berish Boti
+
+# Bot tavsifi - Bot vazifasi
+BOT_DESCRIPTION=Ovoz berish jarayonini boshqarish uchun Telegram bot
+
+# Bot versiyasi - Bot versiyasi
+BOT_VERSION=1.0.0
+
