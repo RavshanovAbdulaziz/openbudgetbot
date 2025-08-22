@@ -17,7 +17,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-async def main():
+def main():
     """Main function to run the bot"""
     try:
         # Create bot application
@@ -39,7 +39,7 @@ async def main():
         logger.info("Bot ilovasi muvaffaqiyatli ishga tushirildi")
         
         # Start polling
-        await bot_application.run_polling(allowed_updates=Update.ALL_TYPES)
+        bot_application.run_polling(allowed_updates=Update.ALL_TYPES)
         
     except Exception as e:
         logger.error(f"Bot ishga tushirishda xatolik: {e}")
@@ -51,8 +51,7 @@ if __name__ == '__main__':
         Config.validate()
         
         # Run the bot
-        import asyncio
-        asyncio.run(main())
+        main()
         
     except Exception as e:
         logger.error(f"Ilova ishga tushirishda xatolik: {e}")
