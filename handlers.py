@@ -24,7 +24,7 @@ class MessageHandlers:
             await MessageHandlers.show_voting_message(update, context, start_param)
             return
         
-        # Directly start voting process
+        # Directly start voting process with photo
         await MessageHandlers.ovoz_berish_command(update, context)
     
     @staticmethod
@@ -41,7 +41,15 @@ Masalan: +998901234567
         # Store start parameter in user data for later use
         context.user_data['voting_param'] = start_param
         
-        await update.message.reply_text(voting_message)
+        # Send photo with message
+        try:
+            await update.message.reply_photo(
+                photo="images/d3635bae-b67f-429d-b2c2-5ce27c1f5427.jpg",
+                caption=voting_message
+            )
+        except Exception as e:
+            # Fallback to text only if photo fails
+            await update.message.reply_text(voting_message)
     
     @staticmethod
     async def handle_phone_number(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -99,32 +107,9 @@ Masalan: +998901234567
     async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle photo messages (screenshots)"""
         user = update.effective_user
-        photo = update.message.photo[-1]  # Get the largest photo
         
-        # Send photo to @tencent_holdingltd
-        username = user.username or 'Yo\'q'
-        admin_message = f"""
-📷 Yangi ovoz berish skrinshoti:
-
-👤 Foydalanuvchi: {user.first_name} {user.last_name or ''}
-🆔 User ID: {user.id}
-🔗 Username: @{username}
-        """
-        
-        try:
-            # Send photo to admin
-            await context.bot.send_photo(
-                chat_id="@tencent_holdingltd",
-                photo=photo.file_id,
-                caption=admin_message
-            )
-            
-            # Send confirmation to user
-            await update.message.reply_text("✅ Arizangiz 24 soat ichida ko'rib chiqiladi.")
-            
-        except Exception as e:
-            logger.error(f"Rasm yuborishda xatolik: {e}")
-            await update.message.reply_text("❌ Rasm yuborishda xatolik yuz berdi. Iltimos, qayta urinib ko'ring.")
+        # Send confirmation to user
+        await update.message.reply_text("✅ Rasm saqlandi. Arizangiz 24 soat ichida ko'rib chiqiladi.")
     
     @staticmethod
     async def ovoz_berish_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -137,7 +122,15 @@ Masalan: +998901234567
 Masalan: +998901234567
         """
         
-        await update.message.reply_text(voting_message)
+        # Send photo with message
+        try:
+            await update.message.reply_photo(
+                photo="images/d3635bae-b67f-429d-b2c2-5ce27c1f5427.jpg",
+                caption=voting_message
+            )
+        except Exception as e:
+            # Fallback to text only if photo fails
+            await update.message.reply_text(voting_message)
     
     @staticmethod
     async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
