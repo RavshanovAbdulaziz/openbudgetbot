@@ -205,11 +205,31 @@ if __name__ == '__main__':
         # Initialize bot
         initialize_bot()
         
-        # Get port from environment (Railway sets this)
-        port = int(os.getenv('PORT', 8000))
+        # Auto-set webhook if RAILWAY_PUBLIC_URL is available
+        railway_url = os.getenv('RAILWAY_PUBLIC_URL')
+        webhook_mode = False
         
-        # Run Flask app
-        app.run(host='0.0.0.0', port=port, debug=False)
+        if railway_url:
+            try:
+                webhook_url = f"{railway_url}{API_PREFIX}/webhook"
+                success = bot_application.bot.set_webhook(url=webhook_url)
+                if success:
+                    logger.info(f"Webhook muvaffaqiyatli o'rnatildi: {webhook_url}")
+                    webhook_mode = True
+                else:
+                    logger.error("Webhook o'rnatishda xatolik")
+            except Exception as e:
+                logger.error(f"Webhook o'rnatishda xatolik: {e}")
+        
+        if webhook_mode:
+            # Run Flask app for webhook mode
+            port = int(os.getenv('PORT', 8000))
+            logger.info(f"Webhook rejimida ishlayapti, port: {port}")
+            app.run(host='0.0.0.0', port=port, debug=False)
+        else:
+            # Run polling mode
+            logger.info("Polling rejimida ishlayapti")
+            bot_application.run_polling(allowed_updates=Update.ALL_TYPES)
         
     except Exception as e:
         logger.error(f"Ilova ishga tushirishda xatolik: {e}")
